@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Campus Cafeteria Menu</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Campus Cafeteria Menu</h1>
+      <div class="subtitle">What's being served</div>
+    </div>
+    <div class="header-right">
+      <% if (dates && dates.length > 0) { %>
+        <label for="dateInput" class="meal-label">Date:</label>
+        <input
+          type="date"
+          id="dateInput"
+          class="date-input"
+          value="<%= selectedDate %>"
+          min="<%= dates[dates.length - 1] %>"
+          max="<%= dates[0] %>"
+        />
+      <% } %>
+
+      <% if (periodNames && periodNames.length > 0) { %>
+        <label for="mealSelect" class="meal-label">Meal:</label>
+        <select id="mealSelect" class="meal-select">
+          <% periodNames.forEach(p => { %>
+            <option value="<%= p %>" <%= p === initialMeal ? 'selected' : '' %>>
+              <%= p %>
+            </option>
+          <% }); %>
+        </select>
+      <% } %>
+    </div>
+  </header>
+
+  <main>
+    <div class="button-row">
+      <a id="reviewLink"
+         href="/reviews?date=<%= selectedDate %>&period=<%= encodeURIComponent(initialMeal) %>"
+         class="btn">
+        Review This Meal
+      </a>
+    </div>
+
+    <section class="filter-bar">
+      <div class="filter-row">
+        <div class="filter-left">
+          <label for="searchInput" class="meal-label">Search:</label>
+          <input
+            id="searchInput"
+            class="search-input"
+            type="text"
+            placeholder="Search food..."
+          />
+        </div>
+        <div class="filter-right">
+          <label for="sortSelect" class="meal-label">Sort:</label>
+          <select id="sortSelect" class="meal-select">
+            <option value="name">Name (A–Z)</option>
+            <option value="up">Most liked</option>
+            <option value="down">Most disliked</option>
+          </select>
+        </div>
+      </div>
+
+      <% if (allTags && allTags.length > 0) { %>
+        <div class="tag-filter-bar">
+          <span class="tag-filter-label">Exclude tags:</span>
+          <% allTags.forEach(tag => { %>
+            <button class="tag-chip" data-tag="<%= tag.toLowerCase().replace(/\//g, ' ').replace(/\s+/g, '-') %>">
+              <span class="tag-chip-text"><%= tag %></span>
+              <span class="tag-chip-x">×</span>
+            </button>
+          <% }); %>
+        </div>
+      <% } %>
+    </section>
+
+    <% if (!grouped || Object.keys(grouped).length === 0) { %>
+      <p>No menu data found for <%= selectedDate %>.</p>
+    <% } else { %>
+      <% Object.keys(grouped).forEach(periodName => { %>
+        <section class="period-block" data-period="<%= periodName %>">
+          <h2><%= periodName %></h2>
+
+          <% Object.keys(grouped[periodName]).forEach(categoryName => { %>
+            <div class="category-block">
+              <h3><%= categoryName %></h3>
+              <div class="card-grid">
+                <% grouped[periodName][categoryName].forEach(item => { %>
+                  <% 
+                    const total = item.total_count || 0;
+                    const upCount = item.up_count || 0;
+                    const downCount = item.down_count || 0;
+                    const noCount = item.notry_count || 0;
+
+                    const upPct = total ? Math.round((upCount * 100) / total) + "%" : "0%";
+                    const downPct = total ? Math.round((downCount * 100) / total) + "%" : "0%";
+                    const noPct = total ? Math.round((noCount * 100) / total) + "%" : "0%";
+
+                    const upRatio = total ? upCount / total : 0;
+                    const downRatio = total ? downCount / total : 0;
+
+                    const tagsData = (item.allergyTags || [])
+                      .map(t => t.toLowerCase().replace(/\//g, ' ').replace(/\s+/g, '-'))
+                      .join('|');
+                  %>
+                  <div class="food-card"
+                       data-name="<%= item.food_name.toLowerCase() %>"
+                       data-tags="<%= tagsData %>"
+                       data-up="<%= upRatio %>"
+                       data-down="<%= downRatio %>">
+                    
+                    <div class="food-img-wrapper">
+                      <img
+                        class="food-img"
+                        src="<%= item.image_url || '/static/images/placeholder.png' %>"
+                        alt="<%= item.food_name %>"
+                        onerror="this.src='/static/images/placeholder.png';"
+                      />
+                    </div>
+
+                    <div class="food-header">
+                      <div class="food-name"><%= item.food_name %></div>
+                    </div>
+
+                    <div class="allergy-row">
+                      <% if (item.allergyTags && item.allergyTags.length > 0) { %>
+                        <% item.allergyTags.forEach(tag => { %>
+                          <span class="allergy-tag"><%= tag %></span>
+                        <% }); %>
+                      <% } %>
+                    </div>
+
+                    <% if (item.ingredients) { %>
+                      <div class="ingredients-line">
+                        <span class="ingredients-label">Ingredients:</span>
+                        <span><%= item.ingredients %></span>
+                      </div>
+                    <% } %>
+
+                    <div class="rating-bar">
+                      <div class="rating-pill rating-up"><%= upPct %> Up</div>
+                      <div class="rating-pill rating-down"><%= downPct %> Down</div>
+                      <div class="rating-pill rating-no"><%= noPct %> Not Tried</div>
+                    </div>
+
+                    <button
+                      class="btn nutrition-btn btn-nutrition"
+                      data-food-id="<%= item.food_id %>"
+                      data-food-name="<%= item.food_name %>">
+                      Nutrition
+                    </button>
+
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          <% }); %>
+        </section>
+      <% }); %>
+    <% } %>
+  </main>
+
+  <!-- Nutrition modal -->
+  <div id="nutritionOverlay" class="modal-overlay modal-hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="nutritionTitle">Nutrition</h2>
+        <button class="modal-close" id="nutritionClose">&times;</button>
+      </div>
+      <div id="nutritionBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const SELECTED_DATE = "<%= selectedDate %>";
+    const INITIAL_MEAL = "<%= initialMeal %>";
+  </script>
+  <script src="/static/js/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Review <%= periodName %> - <%= date %></title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body class="review-page">
+  <header class="review-header">
+    <div>
+      <h1>Review <%= periodName %></h1>
+      <div class="subtitle">Use arrow keys: ← dislike, ↑ didn't try, → like</div>
+    </div>
+    <div class="date-pill"><%= date %></div>
+  </header>
+
+  <main class="review-main">
+    <div id="reviewRoot"></div>
+  </main>
+
+  <script type="application/json" id="items-data">
+    <%- JSON.stringify(items) %>
+  </script>
+  <script src="/static/js/reviews.js"></script>
+</body>
+</html>
