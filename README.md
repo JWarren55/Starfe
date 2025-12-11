@@ -2,8 +2,8 @@
 
 
 
-## Run these commands.
-
+## Run these commands (After cloning repo).
+```
 npm init -y
 
 npm install express
@@ -11,7 +11,7 @@ npm install express
 npm install sqlite3
 
 npm install multer
-
+```
 
 # Problem 
 - Our campus use "Dine on Campus" to tell people all the available food options.
@@ -77,13 +77,19 @@ npm install multer
         - instead of a checkbox, created a list of things to click to filter out/
           - kept the original idea 
 
-## Things Done
+## Features Implemented
 - Creating a menu page that displays location, food items, food stats, food images, meal type, date, nutrition, review this meal 
 - Review this meal: allows user to review each food item for that day and meal type
     - stores rating into database and adds on to food stats in the menu page
     - Tinder influence
 - Filter: list tags to exlude from the menu display
+- Divided the 1300-line server.js file into separate JavaScript files  
 
-## Things Not Done
+## Future Improvements Planned
 - Comment section
-- AI chatbot 
+- AI chatbot
+
+## Learning Outcomes
+- Learned the consequences and benefits of coding with AI
+- Applied the concept of frontend, backend, and database
+- Learned how to prompt engineer
