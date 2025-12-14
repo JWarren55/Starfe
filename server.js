@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const sqlite3 = require("sqlite3").verbose();
+require('dotenv').config();
 
 // Import routes
 const homeRoutes = require("./routes/homeRoutes");
@@ -10,7 +11,7 @@ const apiReviewRoutes = require("./routes/apiReviewRoutes");
 const apiFoodRoutes = require("./routes/apiFoodRoutes");
 
 const app = express();
-const PORT = 3027; // your working port
+const PORT = process.env.PORT || 3027;
 
 app.use(express.json()); // needed for POST JSON
 
@@ -30,6 +31,12 @@ app.use("/nutrition", nutritionRoutes);
 app.use("/reviews", reviewRoutes);
 app.use("/api/reviews", apiReviewRoutes);
 app.use("/api/foods", apiFoodRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

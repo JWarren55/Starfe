@@ -1,3 +1,25 @@
-package-lock.json
-package.json
+# Dependencies
 node_modules/
+
+# Database
+cafeteria.db
+*.db
+
+# Environment variables
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Package files (optional - you may want to include these)
+# package-lock.json
+# package.json

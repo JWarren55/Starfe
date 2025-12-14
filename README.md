@@ -3,7 +3,7 @@
 
 
 ## Run these commands (After cloning repo).
-```
+```bash
 npm init -y
 
 npm install express
@@ -11,11 +11,18 @@ npm install express
 npm install sqlite3
 
 npm install multer
+
+npm install dotenv
+```
+
+**Note:** Copy `.env.example` to `.env` and adjust settings if needed:
+```bash
+cp .env.example .env
 ```
 
 # Problem 
 - Our campus use "Dine on Campus" to tell people all the available food options.
-    - It has no way to receieve feedback or for the consumers to review an offering.
+    - It has no way to receive feedback or for the consumers to review an offering.
 - **Your Challenge:**
     - Build a system that allows the univeristy community members to post:
       - pictures
@@ -82,8 +89,14 @@ npm install multer
 - Review this meal: allows user to review each food item for that day and meal type
     - stores rating into database and adds on to food stats in the menu page
     - Tinder influence
-- Filter: list tags to exlude from the menu display
-- Divided the 1300-line server.js file into separate JavaScript files  
+- Filter: list tags to exclude from the menu display
+- Divided the 1300-line server.js file into separate JavaScript files
+
+## Recent Improvements (December 2024)
+- Added environment variable support with `.env` configuration
+- Implemented error handling middleware for better error management
+- Enhanced `.gitignore` to properly exclude dependencies, database files, and logs
+- Fixed typos and improved documentation
 
 ## Future Improvements Planned
 - Comment section
