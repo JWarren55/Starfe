@@ -92,7 +92,7 @@ cp .env.example .env
 - Filter: list tags to exclude from the menu display
 - Divided the 1300-line server.js file into separate JavaScript files
 
-## Recent Improvements (December 2024)
+## Recent Improvements (December 2025)
 - Added environment variable support with `.env` configuration
 - Implemented error handling middleware for better error management
 - Enhanced `.gitignore` to properly exclude dependencies, database files, and logs
