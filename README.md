@@ -109,6 +109,7 @@ cp .env.example .env
 
 ## Live Demo
 <video src="demoMedia/starfeDemo.mp4" width="700" live demo video></video>
+<p><strong>Note:</strong> If you can't see the live demo video, checkout the <em>demoMedia folder</em> and find <em>starfeDemo.mp4</em></p>
 
 ![menu image](demoMedia/menu.png)
 ![nutrition image](demoMedia/nutrition.png)
