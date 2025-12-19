@@ -106,3 +106,10 @@ cp .env.example .env
 - Learned the consequences and benefits of coding with AI
 - Applied the concept of frontend, backend, and database
 - Learned how to prompt engineer
+
+## Live Demo
+<video src="demoMedia/starfeDemo.mp4" width="700" live demo video></video>
+
+![menu image](demoMedia/menu.png)
+![nutrition image](demoMedia/nutrition.png)
+![review meal](demoMedia/reviewMeal.png)
